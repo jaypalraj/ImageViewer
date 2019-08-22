@@ -17,10 +17,12 @@ namespace ImageViewer
     {
         static Dictionary<string, List<string>> dicsFiles;
         static List<string> listPriority;
+
+
         static Random random;
-        static Random trueOrFalse;
         static Random randomInstruction;
         static Random randomTimer;
+
         static List<string> instructions;
         int paneltyVal = 0;
 
@@ -82,7 +84,6 @@ namespace ImageViewer
             listPriority = null;
 
             random = new Random();
-            trueOrFalse = new Random();
             randomInstruction = new Random();
             randomTimer = new Random();
 
@@ -121,7 +122,7 @@ namespace ImageViewer
                 }
 
 
-                var fileName = DirectoryOperator.ChooseOne(random, trueOrFalse, dicsFiles, listPriority);
+                var fileName = DirectoryOperator.ChooseOne(random, dicsFiles, listPriority);
                 if (!lstBoxFiles.Items.Contains(fileName))
                 {
                     lstBoxFiles.Items.Add(fileName);
@@ -329,11 +330,5 @@ namespace ImageViewer
             }
         }
 
-        ActualRandom r = new ActualRandom();
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            var xx = r.GetIt(0, 10);
-            Debug.WriteLine(xx);
-        }
     }
 }

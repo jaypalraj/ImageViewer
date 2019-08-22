@@ -51,11 +51,11 @@ namespace ImageViewer
 
 
 
-        public static string ChooseOne(Random random, Random trueOrFalse, Dictionary<string, List<string>> dics, List<string> listPriority = null)
+        public static string ChooseOne(Random random, Dictionary<string, List<string>> dics, List<string> listPriority = null)
         {
             var choosenDicsItem = dics.ElementAt(random.Next(dics.Count()));
-
-            var randFile = new Random();
+            var trueOrFalse = new Random();
+            var randFile = new ActualRandom();
 
             if (listPriority != null && listPriority.Any() && trueOrFalse.Next(100) <= 50 ? true : false)
             {

@@ -19,7 +19,7 @@ namespace ImageViewer
             }
         }
 
-        public int GetIt(int min, int max)
+        public int Next(int min, int max)
         {
             int number = 0;
 
@@ -33,6 +33,11 @@ namespace ImageViewer
 
             _items.Add(number);
             return number;
+        }
+
+        public int Next(int max)
+        {
+            return Next(0, max);
         }
     }
 }
