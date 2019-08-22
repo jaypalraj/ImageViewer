@@ -45,5 +45,28 @@ Add another button to upload file to priority list, the folder should open to th
 
 
 
+        private void btnAddToPriority_Click(object sender, EventArgs e)
+        {
+            var selectedItem = lstBoxFiles.SelectedItem?.ToString();
+            var fileInfo = new FileInfo(selectedItem);
 
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = fileInfo.DirectoryName;
+                openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 2;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Get the path of specified file
+                    var filePath = openFileDialog.FileName;
+                    listPriority = listPriority ?? new List<string>();
+                    listPriority.Add(filePath);
+
+                    lstBoxPriority.Items.Add(filePath);
+
+                }
+            }
+        }
 
