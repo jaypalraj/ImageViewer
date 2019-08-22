@@ -19,6 +19,7 @@ namespace ImageViewer
         static Dictionary<string, List<string>> dicsFiles;
         static List<string> listPriority;
         static Random random;
+        static Random randomFillGaps;
         static Random randomFile;
         static Random trueOrFalse;
         static Random randomInstruction;
@@ -84,13 +85,14 @@ namespace ImageViewer
             listPriority = null;
 
             random = new Random();
+            randomFillGaps = new Random();
             randomFile = new Random();
             trueOrFalse = new Random();
             randomInstruction = new Random();
             randomTimer = new Random();
 
             var dics = DirectoryOperator.GetAnalysis(txtDir.Text);
-            dicsFiles = DirectoryOperator.CreateFilesList(dics);
+            dicsFiles = DirectoryOperator.CreateFilesList(randomFillGaps, dics);
             btnLaunch.Enabled = dicsFiles.Any();
 
             btnAnalyse.Enabled = false;
