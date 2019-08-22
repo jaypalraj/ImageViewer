@@ -35,19 +35,24 @@ namespace ImageViewer
             var dirPath = Properties.Settings.Default.DirPath;
             txtDir.Text = string.IsNullOrWhiteSpace(dirPath) ? "c:\temp" : dirPath;
             btnLaunch.Enabled = false;
+
             btnPrioritise.Enabled = false;
             btnUnPrioritise.Enabled = false;
+            btnInsertToPriority.Enabled = false;
+
             btnPanelty.Visible = false;
             lblBox.Visible = false;
             progress.Visible = false;
 
-            instructions = new List<string>
-            {
-                "XX times",
-                "skip or panelty - ££",
-                "follow timer",
-                "do nothing or panelty - ££"
-            };
+            instructions = Helper.ReadInstructions();
+
+            //instructions = new List<string>
+            //{
+            //    "XX times",
+            //    "skip or panelty - ££",
+            //    "follow timer",
+            //    "do nothing or panelty - ££"
+            //};
         }
 
         private void BtnBrowse_Click(object sender, EventArgs e)
@@ -71,6 +76,7 @@ namespace ImageViewer
         {
             btnPrioritise.Enabled = false;
             btnUnPrioritise.Enabled = false;
+            btnInsertToPriority.Enabled = false;
 
             dicsFiles = new Dictionary<string, List<string>>();
             listPriority = null;
@@ -87,13 +93,34 @@ namespace ImageViewer
             btnAnalyse.Enabled = false;
         }
 
+        private void GenerateRandomInstruction()
+        {
+            lblInstruction.Text = instructions.ElementAt(randomInstruction.Next(instructions.Count()))?.ToUpper();
+        }
 
+        int skipVal = -1;
         private void Launch()
         {
             if (!dicsFiles.Any())
                 MessageBox.Show("There are no files to display");
             else
             {
+                if (!lblInstruction.Text.ToLower().Contains("skip next"))
+                    GenerateRandomInstruction();
+
+                if (lblInstruction.Text.ToLower().Contains("skip next"))
+                {
+                    var noToSkip = skipVal == -1 ? new Random().Next(3, 12) : skipVal;
+
+                    lblInstruction.Text = $"SKIP NEXT {noToSkip}";
+                    skipVal = noToSkip;
+                    skipVal--;
+
+                    if (skipVal == -1)
+                        GenerateRandomInstruction();
+                }
+
+
                 var fileName = DirectoryOperator.ChooseOne(random, trueOrFalse, dicsFiles, listPriority);
                 if (!lstBoxFiles.Items.Contains(fileName))
                 {
@@ -102,7 +129,6 @@ namespace ImageViewer
                     lstBoxFiles.SelectedIndex = -1;
                 }
 
-                lblInstruction.Text = instructions.ElementAt(randomInstruction.Next(instructions.Count()))?.ToUpper();
                 if (lblInstruction.Text?.ToLower() == "follow timer")
                 {
                     timerVal = randomTimer.Next(minTimer, maxTimer);
@@ -197,7 +223,9 @@ namespace ImageViewer
 
         private void LstBoxFiles_SelectedIndexChanged(object sender, EventArgs e)
         {
-            btnPrioritise.Enabled = lstBoxFiles.SelectedItem != null;
+            var isEnabled = lstBoxFiles.SelectedItem != null;
+            btnPrioritise.Enabled = isEnabled;
+            btnInsertToPriority.Enabled = isEnabled;
         }
 
         private void LstBoxPriority_SelectedIndexChanged(object sender, EventArgs e)
@@ -274,6 +302,38 @@ namespace ImageViewer
                 this.Opacity = 0.1;
             else
                 this.Opacity = 1;
+        }
+
+
+        private void BtnInsertToPriority_Click(object sender, EventArgs e)
+        {
+            var selectedItem = lstBoxFiles.SelectedItem?.ToString();
+            var fileInfo = new FileInfo(selectedItem);
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = fileInfo.DirectoryName;
+                openFileDialog.Multiselect = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    foreach(var file in openFileDialog.FileNames)
+                    {
+                        listPriority = listPriority ?? new List<string>();
+                        listPriority.Add(file);
+
+                        lstBoxPriority.Items.Add(file);
+                    }
+
+                }
+            }
+        }
+
+        ActualRandom r = new ActualRandom();
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            var xx = r.GetIt(0, 10);
+            Debug.WriteLine(xx);
         }
     }
 }

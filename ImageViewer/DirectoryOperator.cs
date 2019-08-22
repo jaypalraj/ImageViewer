@@ -30,8 +30,6 @@ namespace ImageViewer
         public static Dictionary<string,List<string>> CreateFilesList(Dictionary<string,List<string>> dics)
         {
             var mostfiles = dics.OrderByDescending(d => d.Value.Count()).FirstOrDefault().Value.Count();
-            var leastfiles = dics.OrderBy(d => d.Value.Count()).FirstOrDefault().Value.Count();
-            var median = mostfiles - leastfiles;
 
             var filesList = new Dictionary<string, List<string>>();
 
