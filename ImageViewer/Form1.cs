@@ -69,7 +69,7 @@ namespace ImageViewer
                 Properties.Settings.Default.Save();
 
                 txtDir.Text = folderDlg.SelectedPath;
-                Environment.SpecialFolder root = folderDlg.RootFolder;
+                btnAnalyse.Enabled = true;
             }
         }
 
