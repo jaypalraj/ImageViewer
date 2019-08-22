@@ -1,0 +1,49 @@
+                if (lblInstruction.Text.ToLower().Contains("skip next"))
+                {
+                    var noToSkip = skipVal == 0 ? new Random().Next(3, 12) : skipVal;
+
+                    lblInstruction.Text = $"SKIP NEXT {noToSkip}";
+                    skipVal = noToSkip;
+                    skipVal--;
+                }
+                else
+                    lblInstruction.Text = instructions.ElementAt(randomInstruction.Next(instructions.Count()))?.ToUpper();
+
+
+
+
+
+
+
+
+
+Helper.cs
+
+        public static List<string> ReadInstructions()
+        {
+            int counter = 0;
+            string line;
+            List<string> instructions = new List<string>();
+
+            StreamReader file = new StreamReader(@"c:\instructions.txt");
+            while ((line = file.ReadLine()) != null)
+            {
+                instructions.Add(line);
+                counter++;
+            }
+
+            file.Close();
+
+            return instructions;
+        }
+
+
+
+
+Add another button to upload file to priority list, the folder should open to the location of the folder from the file selected
+
+
+
+
+
+
