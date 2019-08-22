@@ -313,7 +313,7 @@ namespace ImageViewer
             paneltyVal = Convert.ToInt32(lblInstruction.Text.Split('-')[1].Trim());
             player = new SoundPlayer($@"c:\ImageViewer\sounds\1.wav");
 
-            randomIntervalCount = new Random().Next(5, 15);
+            randomIntervalCount = new Random().Next(15, 25);
             timer2.Enabled = true;
             timer2.Interval = 1000;
             interval = 0;
@@ -326,7 +326,7 @@ namespace ImageViewer
             {
                 if (intervalCount == randomIntervalCount)
                 {
-                    timer2.Interval = new Random().Next(200, 700);
+                    timer2.Interval = new Random().Next(150, 400);
                     intervalCount = 0;
                 }
                 intervalCount++;
