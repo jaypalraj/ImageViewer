@@ -21,7 +21,9 @@ namespace ImageViewer
 
             foreach (var dir in dirList)
             {
-                dics.Add(dir.FullName, Helper.ObtainFiles(dir));
+                var files = Helper.ObtainFiles(dir);
+                if(files.Count() > 0)
+                    dics.Add(dir.FullName, files);
             }
 
             return dics;
