@@ -29,8 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.btnInsertToPriority = new System.Windows.Forms.Button();
             this.btnUnPrioritise = new System.Windows.Forms.Button();
             this.btnPrioritise = new System.Windows.Forms.Button();
             this.btnAnalyse = new System.Windows.Forms.Button();
@@ -47,8 +49,7 @@
             this.lstBoxFiles = new System.Windows.Forms.ListBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
-            this.btnInsertToPriority = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.chkMute = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -57,6 +58,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.DimGray;
+            this.panel1.Controls.Add(this.chkMute);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.chkHide);
             this.panel1.Controls.Add(this.btnLaunch);
@@ -79,6 +81,18 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(104, 235);
             this.panel3.TabIndex = 9;
+            // 
+            // btnInsertToPriority
+            // 
+            this.btnInsertToPriority.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnInsertToPriority.ForeColor = System.Drawing.Color.Black;
+            this.btnInsertToPriority.Location = new System.Drawing.Point(0, 177);
+            this.btnInsertToPriority.Name = "btnInsertToPriority";
+            this.btnInsertToPriority.Size = new System.Drawing.Size(104, 52);
+            this.btnInsertToPriority.TabIndex = 14;
+            this.btnInsertToPriority.Text = "APPEND";
+            this.btnInsertToPriority.UseVisualStyleBackColor = true;
+            this.btnInsertToPriority.Click += new System.EventHandler(this.BtnInsertToPriority_Click);
             // 
             // btnUnPrioritise
             // 
@@ -261,27 +275,18 @@
             // 
             this.timer2.Tick += new System.EventHandler(this.Timer2_Tick);
             // 
-            // btnInsertToPriority
+            // chkMute
             // 
-            this.btnInsertToPriority.Font = new System.Drawing.Font("Microsoft YaHei UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnInsertToPriority.ForeColor = System.Drawing.Color.Black;
-            this.btnInsertToPriority.Location = new System.Drawing.Point(0, 177);
-            this.btnInsertToPriority.Name = "btnInsertToPriority";
-            this.btnInsertToPriority.Size = new System.Drawing.Size(104, 52);
-            this.btnInsertToPriority.TabIndex = 14;
-            this.btnInsertToPriority.Text = "APPEND";
-            this.btnInsertToPriority.UseVisualStyleBackColor = true;
-            this.btnInsertToPriority.Click += new System.EventHandler(this.BtnInsertToPriority_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(0, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1_Click);
+            this.chkMute.AutoSize = true;
+            this.chkMute.Checked = true;
+            this.chkMute.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkMute.Location = new System.Drawing.Point(6, 253);
+            this.chkMute.Name = "chkMute";
+            this.chkMute.Size = new System.Drawing.Size(61, 21);
+            this.chkMute.TabIndex = 10;
+            this.chkMute.Text = "Mute";
+            this.chkMute.UseVisualStyleBackColor = true;
+            this.chkMute.CheckedChanged += new System.EventHandler(this.ChkMute_CheckedChanged);
             // 
             // Form1
             // 
@@ -290,10 +295,10 @@
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(412, 415);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.Color.White;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
@@ -330,7 +335,7 @@
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.TextBox txtDir;
         private System.Windows.Forms.Button btnInsertToPriority;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox chkMute;
     }
 }
 

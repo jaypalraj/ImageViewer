@@ -27,7 +27,7 @@ namespace ImageViewer
             return dics;
         }
 
-        public static Dictionary<string,List<string>> CreateFilesList(Dictionary<string,List<string>> dics)
+        public static Dictionary<string,List<string>> CreateFilesList(Random randomFillGaps, Dictionary<string,List<string>> dics)
         {
             var mostfiles = dics.OrderByDescending(d => d.Value.Count()).FirstOrDefault().Value.Count();
 
@@ -39,10 +39,9 @@ namespace ImageViewer
 
                 var diff = mostfiles - d.Value.Count();
 
-                var rand = new Random();
                 for (var i = 0; i < diff; i++)
                 {
-                    filesList[d.Key].Add(d.Value.ElementAt(rand.Next(d.Value.Count())));
+                    filesList[d.Key].Add(d.Value.ElementAt(randomFillGaps.Next(d.Value.Count())));
                 }
             }
 
@@ -51,11 +50,9 @@ namespace ImageViewer
 
 
 
-        public static string ChooseOne(Random random, Random trueOrFalse, Dictionary<string, List<string>> dics, List<string> listPriority = null)
+        public static string ChooseOne(Random random, Random randFile, Random trueOrFalse, Dictionary<string, List<string>> dics, List<string> listPriority = null)
         {
             var choosenDicsItem = dics.ElementAt(random.Next(dics.Count()));
-
-            var randFile = new Random();
 
             if (listPriority != null && listPriority.Any() && trueOrFalse.Next(100) <= 50 ? true : false)
             {

@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,7 +18,9 @@ namespace ImageViewer
     {
         static Dictionary<string, List<string>> dicsFiles;
         static List<string> listPriority;
+        static Random randomFillGaps;
         static Random random;
+        static Random randomFile;
         static Random trueOrFalse;
         static Random randomInstruction;
         static Random randomTimer;
@@ -81,13 +84,15 @@ namespace ImageViewer
             dicsFiles = new Dictionary<string, List<string>>();
             listPriority = null;
 
+            randomFillGaps = new Random();
             random = new Random();
+            randomFile = new Random();
             trueOrFalse = new Random();
             randomInstruction = new Random();
             randomTimer = new Random();
 
             var dics = DirectoryOperator.GetAnalysis(txtDir.Text);
-            dicsFiles = DirectoryOperator.CreateFilesList(dics);
+            dicsFiles = DirectoryOperator.CreateFilesList(randomFillGaps, dics);
             btnLaunch.Enabled = dicsFiles.Any();
 
             btnAnalyse.Enabled = false;
@@ -121,7 +126,7 @@ namespace ImageViewer
                 }
 
 
-                var fileName = DirectoryOperator.ChooseOne(random, trueOrFalse, dicsFiles, listPriority);
+                var fileName = DirectoryOperator.ChooseOne(random, randomFile, trueOrFalse, dicsFiles, listPriority);
                 if (!lstBoxFiles.Items.Contains(fileName))
                 {
                     lstBoxFiles.Items.Add(fileName);
@@ -260,11 +265,16 @@ namespace ImageViewer
 
 
         int interval = 0;
+        SoundPlayer player;
+        int intervalCount = 0;
+        int randomIntervalCount = 0;
         private void BtnPanelty_Click(object sender, EventArgs e)
         {
             lblInstruction.Text = lblInstruction.Text.Replace("££", new Random().Next(50, 300).ToString());
             paneltyVal = Convert.ToInt32(lblInstruction.Text.Split('-')[1].Trim());
+            player = new SoundPlayer($@"c:\ImageViewer\sounds\1.wav");
 
+            randomIntervalCount = new Random().Next(5, 25);
             timer2.Interval = 1000;
             interval = 0;
             timer2.Start();
@@ -274,12 +284,21 @@ namespace ImageViewer
         {
             if (interval < paneltyVal)
             {
-                timer2.Interval = new Random().Next(100, 500);
+                if (intervalCount == randomIntervalCount)
+                {
+                    timer2.Interval = new Random().Next(190, 200);
+                    intervalCount = 0;
+                }
+                intervalCount++;
+
                 lblInstruction.Visible = false;
                 lblBox.Visible = true;
                 lblBox.Text = interval.ToString();
                 lblBox.BackColor = lblBox.BackColor == Color.Indigo ? Color.BlueViolet : Color.Indigo;
                 lblBox.ForeColor = lblBox.BackColor == Color.BlueViolet ? Color.Indigo : Color.BlueViolet;
+
+                if(!chkMute.Checked)
+                    player.Play();
 
                 interval++;
             }
@@ -287,6 +306,8 @@ namespace ImageViewer
             {
                 timer2.Stop();
                 interval = 0;
+                intervalCount = 10;
+                randomIntervalCount = 0;
                 lblBox.Visible = false;
                 lblInstruction.Visible = true;
                 paneltyVal = 0;
@@ -317,7 +338,7 @@ namespace ImageViewer
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    foreach(var file in openFileDialog.FileNames)
+                    foreach (var file in openFileDialog.FileNames)
                     {
                         listPriority = listPriority ?? new List<string>();
                         listPriority.Add(file);
@@ -329,11 +350,12 @@ namespace ImageViewer
             }
         }
 
-        ActualRandom r = new ActualRandom();
-        private void Button1_Click(object sender, EventArgs e)
+        private void ChkMute_CheckedChanged(object sender, EventArgs e)
         {
-            var xx = r.GetIt(0, 10);
-            Debug.WriteLine(xx);
+            if (chkMute.Checked)
+                player.Stop();
+            else
+                player.Play();
         }
     }
 }

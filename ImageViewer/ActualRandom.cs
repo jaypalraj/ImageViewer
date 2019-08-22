@@ -34,5 +34,10 @@ namespace ImageViewer
             _items.Add(number);
             return number;
         }
+
+        public int GetIt(int max)
+        {
+            return GetIt(0, max);
+        }
     }
 }
