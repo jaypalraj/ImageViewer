@@ -180,6 +180,17 @@ namespace ImageViewer
 
             lblInstruction.Text += " " + timerVal + " seconds";
 
+            timer2.Enabled = false;
+            timer2.Stop();
+            interval = 0;
+            intervalCount = 10;
+            randomIntervalCount = 0;
+            lblBox.Visible = false;
+            lblInstruction.Visible = true;
+            paneltyVal = 0;
+            btnPanelty.Visible = false;
+
+
             Launch();
         }
 
@@ -298,11 +309,12 @@ namespace ImageViewer
         int randomIntervalCount = 0;
         private void BtnPanelty_Click(object sender, EventArgs e)
         {
-            lblInstruction.Text = lblInstruction.Text.Replace("££", new Random().Next(50, 300).ToString());
+            lblInstruction.Text = lblInstruction.Text.Replace("££", new Random().Next(50, 500).ToString());
             paneltyVal = Convert.ToInt32(lblInstruction.Text.Split('-')[1].Trim());
             player = new SoundPlayer($@"c:\ImageViewer\sounds\1.wav");
 
-            randomIntervalCount = new Random().Next(5, 25);
+            randomIntervalCount = new Random().Next(5, 15);
+            timer2.Enabled = true;
             timer2.Interval = 1000;
             interval = 0;
             timer2.Start();
@@ -314,7 +326,7 @@ namespace ImageViewer
             {
                 if (intervalCount == randomIntervalCount)
                 {
-                    timer2.Interval = new Random().Next(190, 200);
+                    timer2.Interval = new Random().Next(200, 700);
                     intervalCount = 0;
                 }
                 intervalCount++;
