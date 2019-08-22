@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chkMute = new System.Windows.Forms.CheckBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnInsertToPriority = new System.Windows.Forms.Button();
             this.btnUnPrioritise = new System.Windows.Forms.Button();
@@ -49,7 +50,7 @@
             this.lstBoxFiles = new System.Windows.Forms.ListBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
-            this.chkMute = new System.Windows.Forms.CheckBox();
+            this.chkPriority = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -58,6 +59,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.DimGray;
+            this.panel1.Controls.Add(this.chkPriority);
             this.panel1.Controls.Add(this.chkMute);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.chkHide);
@@ -67,6 +69,19 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(104, 415);
             this.panel1.TabIndex = 0;
+            // 
+            // chkMute
+            // 
+            this.chkMute.AutoSize = true;
+            this.chkMute.Checked = true;
+            this.chkMute.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkMute.Location = new System.Drawing.Point(6, 267);
+            this.chkMute.Name = "chkMute";
+            this.chkMute.Size = new System.Drawing.Size(61, 21);
+            this.chkMute.TabIndex = 10;
+            this.chkMute.Text = "Mute";
+            this.chkMute.UseVisualStyleBackColor = true;
+            this.chkMute.CheckedChanged += new System.EventHandler(this.ChkMute_CheckedChanged);
             // 
             // panel3
             // 
@@ -161,7 +176,7 @@
             // chkHide
             // 
             this.chkHide.AutoSize = true;
-            this.chkHide.Location = new System.Drawing.Point(6, 288);
+            this.chkHide.Location = new System.Drawing.Point(6, 293);
             this.chkHide.Name = "chkHide";
             this.chkHide.Size = new System.Drawing.Size(59, 21);
             this.chkHide.TabIndex = 7;
@@ -275,18 +290,16 @@
             // 
             this.timer2.Tick += new System.EventHandler(this.Timer2_Tick);
             // 
-            // chkMute
+            // chkPriority
             // 
-            this.chkMute.AutoSize = true;
-            this.chkMute.Checked = true;
-            this.chkMute.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkMute.Location = new System.Drawing.Point(6, 253);
-            this.chkMute.Name = "chkMute";
-            this.chkMute.Size = new System.Drawing.Size(61, 21);
-            this.chkMute.TabIndex = 10;
-            this.chkMute.Text = "Mute";
-            this.chkMute.UseVisualStyleBackColor = true;
-            this.chkMute.CheckedChanged += new System.EventHandler(this.ChkMute_CheckedChanged);
+            this.chkPriority.AutoSize = true;
+            this.chkPriority.Location = new System.Drawing.Point(6, 241);
+            this.chkPriority.Name = "chkPriority";
+            this.chkPriority.Size = new System.Drawing.Size(74, 21);
+            this.chkPriority.TabIndex = 11;
+            this.chkPriority.Text = "Priority";
+            this.chkPriority.UseVisualStyleBackColor = true;
+            this.chkPriority.CheckedChanged += new System.EventHandler(this.ChkPriority_CheckedChanged);
             // 
             // Form1
             // 
@@ -336,6 +349,7 @@
         private System.Windows.Forms.TextBox txtDir;
         private System.Windows.Forms.Button btnInsertToPriority;
         private System.Windows.Forms.CheckBox chkMute;
+        private System.Windows.Forms.CheckBox chkPriority;
     }
 }
 

@@ -38,6 +38,7 @@ namespace ImageViewer
             var dirPath = Properties.Settings.Default.DirPath;
             txtDir.Text = string.IsNullOrWhiteSpace(dirPath) ? "c:\temp" : dirPath;
             btnLaunch.Enabled = false;
+            chkPriority.Enabled = false;
 
             btnPrioritise.Enabled = false;
             btnUnPrioritise.Enabled = false;
@@ -93,7 +94,9 @@ namespace ImageViewer
 
             var dics = DirectoryOperator.GetAnalysis(txtDir.Text);
             dicsFiles = DirectoryOperator.CreateFilesList(randomFillGaps, dics);
-            btnLaunch.Enabled = dicsFiles.Any();
+            var isEnabled = dicsFiles.Any();
+            btnLaunch.Enabled = isEnabled;
+            chkPriority.Enabled = isEnabled;
 
             btnAnalyse.Enabled = false;
         }
@@ -192,6 +195,7 @@ namespace ImageViewer
 
                 progress.Visible = false;
                 btnLaunch.Enabled = true;
+                chkPriority.Enabled = true;
                 Launch();
             }
         }
@@ -238,6 +242,30 @@ namespace ImageViewer
             btnUnPrioritise.Enabled = lstBoxPriority.SelectedItem != null;
         }
 
+        private void ChkPriority_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkPriority.Checked)
+            {
+                var selectedFile = lstBoxFiles.SelectedItem?.ToString();
+                if (selectedFile == null)
+                    MessageBox.Show("Please select a file");
+                else
+                {
+                    var fileInfo = new FileInfo(selectedFile);
+                    var dirInfo = new DirectoryInfo(fileInfo.DirectoryName);
+                    var files = Helper.ObtainFiles(dirInfo);
+
+                    foreach (var file in files)
+                    {
+                        listPriority = listPriority ?? new List<string>();
+                        listPriority.Add(file);
+
+                        lstBoxPriority.Items.Add(file);
+                    }
+                }
+
+            }
+        }
 
 
 
@@ -357,5 +385,6 @@ namespace ImageViewer
             else
                 player.Play();
         }
+
     }
 }
