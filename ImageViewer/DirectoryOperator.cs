@@ -9,7 +9,7 @@ namespace ImageViewer
 {
     public class DirectoryOperator
     {
-        public static Dictionary<string,List<string>> GetAnalysis(string dirPath)
+        public static Dictionary<string, List<string>> GetAnalysis(string dirPath)
         {
             var dirInfo = new DirectoryInfo(dirPath);
 
@@ -19,7 +19,7 @@ namespace ImageViewer
 
             var dics = new Dictionary<string, List<string>>();
 
-            foreach(var dir in dirList)
+            foreach (var dir in dirList)
             {
                 dics.Add(dir.FullName, Helper.ObtainFiles(dir));
             }
@@ -27,11 +27,12 @@ namespace ImageViewer
             return dics;
         }
 
-        public static Dictionary<string,List<string>> CreateFilesList(Random randomFillGaps, Dictionary<string,List<string>> dics)
+        public static Dictionary<string, List<string>> CreateFilesList(Dictionary<string, List<string>> dics)
         {
             var mostfiles = dics.OrderByDescending(d => d.Value.Count()).FirstOrDefault().Value.Count();
 
             var filesList = new Dictionary<string, List<string>>();
+            var randomFillGaps = new Random();
 
             foreach (var d in dics)
             {
@@ -60,7 +61,7 @@ namespace ImageViewer
             }
 
             return choosenDicsItem.Value.ElementAt(randFile.Next(choosenDicsItem.Value.Count()));
-            
+
         }
     }
 }
