@@ -101,33 +101,35 @@ namespace ImageViewer
             btnAnalyse.Enabled = false;
         }
 
+        int skipVal = -1;
         private void GenerateRandomInstruction()
         {
-            lblInstruction.Text = instructions.ElementAt(randomInstruction.Next(instructions.Count()))?.ToUpper();
+            if (!lblInstruction.Text.ToLower().Contains("skip next"))
+                lblInstruction.Text = instructions.ElementAt(randomInstruction.Next(instructions.Count()))?.ToUpper();
+            else
+            {
+                var noToSkip = skipVal <= -1 ? new Random().Next(3, 12) : skipVal;
+
+                lblInstruction.Text = $"SKIP NEXT {noToSkip}";
+                skipVal = noToSkip;
+                skipVal--;
+
+                if (skipVal <= -1)
+                {
+                    lblInstruction.Text = "";
+                    GenerateRandomInstruction();
+                }
+            }
+
         }
 
-        int skipVal = -1;
         private void Launch()
         {
             if (!dicsFiles.Any())
                 MessageBox.Show("There are no files to display");
             else
             {
-                if (!lblInstruction.Text.ToLower().Contains("skip next"))
-                    GenerateRandomInstruction();
-
-                if (lblInstruction.Text.ToLower().Contains("skip next"))
-                {
-                    var noToSkip = skipVal == -1 ? new Random().Next(3, 12) : skipVal;
-
-                    lblInstruction.Text = $"SKIP NEXT {noToSkip}";
-                    skipVal = noToSkip;
-                    skipVal--;
-
-                    if (skipVal == -1)
-                        GenerateRandomInstruction();
-                }
-
+                GenerateRandomInstruction();
 
                 var fileName = DirectoryOperator.ChooseOne(random, randomFile, trueOrFalse, dicsFiles, listPriority);
                 if (!lstBoxFiles.Items.Contains(fileName))
