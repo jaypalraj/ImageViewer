@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ImageViewer
 {
     public class ActualRandom
     {
-        static Random _random;
-        static List<int> _items;
+        private static Random _random;
+        private static List<int> _items;
+
         public ActualRandom()
         {
             if (_random == null)
@@ -26,7 +24,7 @@ namespace ImageViewer
             if (_items.Count == max)
                 _items.Clear();
 
-            while(_items.Contains(number))
+            while (_items.Contains(number))
             {
                 number = _random.Next(min, max);
             }

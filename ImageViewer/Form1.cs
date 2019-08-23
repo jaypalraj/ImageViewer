@@ -1,35 +1,31 @@
-﻿using System;
+﻿using SecureRandomLibrary;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ImageViewer
 {
     public partial class Form1 : Form
     {
-        static Dictionary<string, List<string>> dicsFiles;
-        static List<string> listPriority;
-        static Random random;
-        static Random randomFillGaps;
-        static Random randomFile;
-        static Random trueOrFalse;
-        static Random randomInstruction;
-        static Random randomTimer;
-        static List<string> instructions;
-        int paneltyVal = 0;
+        private static Dictionary<string, List<string>> dicsFiles;
+        private static List<string> listPriority;
+        private static SecureRandom random;
+        private static SecureRandom randomFillGaps;
+        private static SecureRandom randomFile;
+        private static Random trueOrFalse;
+        private static Random randomInstruction;
+        private static Random randomTimer;
+        private static List<string> instructions;
+        private int paneltyVal = 0;
 
-        int timerVal = 0;
-        int maxTimer = Properties.Settings.Default.MaxTimer;
-        int minTimer = Properties.Settings.Default.MinTimer;
+        private int timerVal = 0;
+        private int maxTimer = Properties.Settings.Default.MaxTimer;
+        private int minTimer = Properties.Settings.Default.MinTimer;
 
         public Form1()
         {
@@ -75,7 +71,6 @@ namespace ImageViewer
             }
         }
 
-
         private void BtnAnalyse_Click(object sender, EventArgs e)
         {
             btnPrioritise.Enabled = false;
@@ -85,9 +80,9 @@ namespace ImageViewer
             dicsFiles = new Dictionary<string, List<string>>();
             listPriority = null;
 
-            random = new Random();
-            randomFillGaps = new Random();
-            randomFile = new Random();
+            random = new SecureRandom();
+            randomFillGaps = new SecureRandom();
+            randomFile = new SecureRandom();
             trueOrFalse = new Random();
             randomInstruction = new Random();
             randomTimer = new Random();
@@ -101,12 +96,14 @@ namespace ImageViewer
             btnAnalyse.Enabled = false;
         }
 
-        int skipVal = -1;
+        private int skipVal = -1;
+
         private void GenerateRandomInstruction()
         {
             if (!lblInstruction.Text.ToLower().Contains("skip next"))
                 lblInstruction.Text = instructions.ElementAt(randomInstruction.Next(instructions.Count()))?.ToUpper();
-            else
+
+            if (lblInstruction.Text.ToLower().Contains("skip next"))
             {
                 var noToSkip = skipVal <= -1 ? new Random().Next(3, 12) : skipVal;
 
@@ -120,7 +117,6 @@ namespace ImageViewer
                     GenerateRandomInstruction();
                 }
             }
-
         }
 
         private void Launch()
@@ -192,7 +188,6 @@ namespace ImageViewer
             paneltyVal = 0;
             btnPanelty.Visible = false;
 
-
             Launch();
         }
 
@@ -212,12 +207,6 @@ namespace ImageViewer
                 Launch();
             }
         }
-
-
-
-
-
-
 
         private void BtnPrioritise_Click(object sender, EventArgs e)
         {
@@ -276,17 +265,8 @@ namespace ImageViewer
                         lstBoxPriority.Items.Add(file);
                     }
                 }
-
             }
         }
-
-
-
-
-
-
-
-
 
         private void LstBoxFiles_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -299,16 +279,11 @@ namespace ImageViewer
                 Process.Start(file);
         }
 
+        private int interval = 0;
+        private SoundPlayer player;
+        private int intervalCount = 0;
+        private int randomIntervalCount = 0;
 
-
-
-
-
-
-        int interval = 0;
-        SoundPlayer player;
-        int intervalCount = 0;
-        int randomIntervalCount = 0;
         private void BtnPanelty_Click(object sender, EventArgs e)
         {
             lblInstruction.Text = lblInstruction.Text.Replace("££", new Random().Next(50, 500).ToString());
@@ -339,7 +314,7 @@ namespace ImageViewer
                 lblBox.BackColor = lblBox.BackColor == Color.Indigo ? Color.BlueViolet : Color.Indigo;
                 lblBox.ForeColor = lblBox.BackColor == Color.BlueViolet ? Color.Indigo : Color.BlueViolet;
 
-                if(!chkMute.Checked)
+                if (!chkMute.Checked)
                     player.Play();
 
                 interval++;
@@ -367,7 +342,6 @@ namespace ImageViewer
                 this.Opacity = 1;
         }
 
-
         private void BtnInsertToPriority_Click(object sender, EventArgs e)
         {
             var selectedItem = lstBoxFiles.SelectedItem?.ToString();
@@ -387,7 +361,6 @@ namespace ImageViewer
 
                         lstBoxPriority.Items.Add(file);
                     }
-
                 }
             }
         }
@@ -399,6 +372,5 @@ namespace ImageViewer
             else
                 player.Play();
         }
-
     }
 }
